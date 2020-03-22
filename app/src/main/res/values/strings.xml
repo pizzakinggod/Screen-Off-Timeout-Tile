@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ScreenTimeQS</string>
+    <string name="tile_name">Screen Timeout</string>
+    <string name="pref_multi">Select options to use</string>
+</resources>
