@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">화면 자동 꺼짐 타일</string>
+    <string name="tile_name">화면 꺼짐\n시간 변경</string>
+    <string name="pref_multi">타일에 사용할 자동 꺼짐 시간을 선택하세요.</string>
+    <string name="pref_guide">빠른 설정창을 열고 버튼을 추가하세요.</string>
+    <string name="toast_ask_permission">시스템 설정 변경 권한을 허용해주세요.</string>
+</resources>

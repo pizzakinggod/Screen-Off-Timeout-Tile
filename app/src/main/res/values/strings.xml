@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">ScreenTimeQS</string>
-    <string name="tile_name">Screen Timeout</string>
-    <string name="pref_multi">Select options to use</string>
+    <string name="app_name">Screen Off Timeout Tile</string>
+    <string name="tile_name">Screen Off\nTimeout</string>
+    <string name="pref_multi">Select options to use.</string>
+    <string name="pref_guide">Please open quick settings panel and add the button.</string>
+    <string name="toast_ask_permission">Please grant system write permission.</string>
 </resources>

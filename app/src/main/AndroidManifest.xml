@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.instantpood.screenofftimeout">
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <application
@@ -20,11 +19,10 @@
         </activity>
 
         <service android:name="com.instantpood.screenofftimeout.ScreenOffTimeOutService"
-            android:icon="@drawable/ic_screen_lock_portrait"
             android:label="@string/tile_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"></action>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
     </application>
