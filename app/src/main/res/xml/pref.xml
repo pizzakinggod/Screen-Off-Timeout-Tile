@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:defaultValue="false"
+        android:key="select_screen_off_timeout"
+        android:title="@string/pref_multi"/>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="15s_checkbox"
+        android:title="15 seconds" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="30s_checkbox"
+        android:title="30 seconds" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="1min_checkbox"
+        android:title="1 minute" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="2min_checkbox"
+        android:title="2 minutes" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="5min_checkbox"
+        android:title="5 minutes" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="10min_checkbox"
+        android:title="10 minutes" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="30min_checkbox"
+        android:title="30 minutes" />
+</PreferenceScreen>
