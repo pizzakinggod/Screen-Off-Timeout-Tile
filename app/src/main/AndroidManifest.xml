@@ -19,6 +19,7 @@
         </activity>
 
         <service android:name="com.instantpood.screenofftimeout.ScreenOffTimeOutService"
+            android:icon="@drawable/ic_screen30s"
             android:label="@string/tile_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
