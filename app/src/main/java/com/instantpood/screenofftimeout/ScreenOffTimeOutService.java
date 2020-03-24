@@ -91,6 +91,27 @@ public class ScreenOffTimeOutService extends TileService {
     }
 
     @Override
+    public void onStartListening() {
+        super.onStartListening();
+
+        // 1. find current state
+        int currentValue = -1;
+        try {
+            currentValue = Settings.System.getInt(getContentResolver(),
+                    Settings.System.SCREEN_OFF_TIMEOUT);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        int curOption = getOptionFromValues(currentValue);
+
+        // 2. Change icon
+        Icon icon  = Icon.createWithResource(getApplicationContext(),images[curOption]);
+        getQsTile().setIcon(icon);
+        getQsTile().updateTile();
+
+    }
+
+    @Override
     public void onClick()
     {
 
