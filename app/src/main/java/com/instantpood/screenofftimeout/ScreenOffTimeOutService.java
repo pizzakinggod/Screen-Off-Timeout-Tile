@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -140,11 +141,20 @@ public class ScreenOffTimeOutService extends TileService {
         } else {
             // if permission not granted
             // Open write permission menu
-            Intent writeSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS); // Settings.ACTION_MANAGE_WRITE_SETTINGS
-            writeSettingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            writeSettingsIntent.setData(Uri.parse("package:"+getPackageName()));
-            startActivityAndCollapse(writeSettingsIntent);
-            Toast.makeText(this, R.string.toast_ask_permission, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.toast_ask_permission, Toast.LENGTH_LONG).show();
+            (new Handler())
+                    .postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    // launch your activity here
+                                    Intent writeSettingsIntent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS); // Settings.ACTION_MANAGE_WRITE_SETTINGS
+                                    writeSettingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    writeSettingsIntent.setData(Uri.parse("package:"+getPackageName())); // give package name to open specific settings screen
+                                    startActivityAndCollapse(writeSettingsIntent);
+                                }
+                            }, 1000);
+
+
         }
 
     }
