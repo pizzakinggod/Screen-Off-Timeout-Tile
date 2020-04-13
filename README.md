@@ -1,3 +1,5 @@
+<a href='https://play.google.com/store/apps/details?id=com.instantpood.screenofftimeouttile&hl=en&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width=270 alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+
 # Screen-Off-Timeout-Tile
 
 Adds screen off timeout tile to your quick settings panel for quickly changing screen off timeout time.
