@@ -9,12 +9,22 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.service.quicksettings.TileService;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+
+import androidx.preference.Preference;
+
+import static android.util.Log.v;
 
 
 public class ScreenOffTimeOutService extends TileService {
 
-    private Integer[] images= {
+    public static final int optionCount = 8;
+
+    private Integer[] screenTimeoutIcons = {
             R.drawable.ic_screen15s,
             R.drawable.ic_screen30s,
             R.drawable.ic_screen1min,
@@ -27,7 +37,7 @@ public class ScreenOffTimeOutService extends TileService {
 
     SharedPreferences spref;
 
-    private int getOptionFromValues(int milisec){
+    private int getOptionFromTimeValue(int milisec){
         int ret;
         switch(milisec){
             case 15000: ret = 0; break;
@@ -42,7 +52,7 @@ public class ScreenOffTimeOutService extends TileService {
         return ret;
     }
 
-    private int getValuesFromOption(int option){
+    private int getTimeValueFromOption(int option){
         int ret;
         switch(option){
             case 0: ret=15000; break;
@@ -57,12 +67,13 @@ public class ScreenOffTimeOutService extends TileService {
         return ret;
     }
 
+    // 현재 옵션을 기반으로 다음 옵션을 결정
     private int getNextOption(int curOption){
         if (spref==null){
             spref = PreferenceManager.getDefaultSharedPreferences(this);
         }
 
-        int nextOption = (curOption+1)%images.length;
+        int nextOption = (curOption+1)% screenTimeoutIcons.length;
         String optionKey = String.format("%s_checkbox", Integer.toString(nextOption));
         boolean optionValue = spref.getBoolean(optionKey, true);
 
@@ -75,7 +86,18 @@ public class ScreenOffTimeOutService extends TileService {
     @Override
     public void onTileAdded() {
         super.onTileAdded();
-        // 1. find current state
+        updateIcon(getOptionFromTimeValue(this.getCurrentValue()));
+    }
+
+    // 옵션에 맞는 아이콘으로 변경함
+    private void updateIcon(int currentOption) {
+        Icon icon  = Icon.createWithResource(getApplicationContext(), screenTimeoutIcons[currentOption]);
+        getQsTile().setIcon(icon);
+        getQsTile().updateTile();
+    }
+
+    // 현재 설정된 시간 값을 가져옴
+    private int getCurrentValue() {
         int currentValue = -1;
         try {
             currentValue = Settings.System.getInt(getContentResolver(),
@@ -83,61 +105,34 @@ public class ScreenOffTimeOutService extends TileService {
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
         }
-        int curOption = getOptionFromValues(currentValue);
-
-        // 2. Change icon
-        Icon icon  = Icon.createWithResource(getApplicationContext(),images[curOption]);
-        getQsTile().setIcon(icon);
-        getQsTile().updateTile();
+        int curOption = getOptionFromTimeValue(currentValue);
+        return currentValue;
     }
 
     @Override
     public void onStartListening() {
         super.onStartListening();
-
-        // 1. find current state
-        int currentValue = -1;
-        try {
-            currentValue = Settings.System.getInt(getContentResolver(),
-                    Settings.System.SCREEN_OFF_TIMEOUT);
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
-        }
-        int curOption = getOptionFromValues(currentValue);
-
-        // 2. Change icon
-        Icon icon  = Icon.createWithResource(getApplicationContext(),images[curOption]);
-        getQsTile().setIcon(icon);
-        getQsTile().updateTile();
-
+        updateIcon(getOptionFromTimeValue(this.getCurrentValue()));
     }
 
     @Override
     public void onClick()
     {
 
+        // 설정 쓰기 권한이 있으면
         if (Settings.System.canWrite(getApplicationContext())) {
-            // 1. find current state
-            int currentValue;
-            try {
-                currentValue = Settings.System.getInt(getContentResolver(),
-                        Settings.System.SCREEN_OFF_TIMEOUT);
-            } catch (Settings.SettingNotFoundException e) {
-                e.printStackTrace();
-                currentValue = -1;
-            }
-            int curOption = getOptionFromValues(currentValue);
+            // 현재 옵션을 찾는다.
+            int curOption = getOptionFromTimeValue(getCurrentValue());
 
-            // 2. get next state
+            // 다음 옵션을 찾는다.
             curOption = getNextOption(curOption);
 
-            // 3. Update
-            Icon icon  = Icon.createWithResource(getApplicationContext(),images[curOption]);
-            getQsTile().setIcon(icon);
-            getQsTile().updateTile();
+            // 아이콘 업데이트
+            updateIcon(curOption);
 
+            // 실제 설정 값도 변경한다.
             Settings.System.putInt(getContentResolver(),
-                    Settings.System.SCREEN_OFF_TIMEOUT, getValuesFromOption(curOption));
+                    Settings.System.SCREEN_OFF_TIMEOUT, getTimeValueFromOption(curOption));
         } else {
             // if permission not granted
             // Open write permission menu

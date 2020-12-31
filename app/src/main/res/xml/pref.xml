@@ -10,7 +10,6 @@
             android:title="15 seconds" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:enabled="false"
             android:key="1_checkbox"
             android:title="30 seconds" />
         <CheckBoxPreference
